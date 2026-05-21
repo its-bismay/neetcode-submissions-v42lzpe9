@@ -4,9 +4,8 @@ class Solution:
         ans = []
 
         for num in nums:
-            currSum = prevSum + num
-            ans.append(currSum)
-            prevSum = currSum
+            prevSum = prevSum + num
+            ans.append(prevSum)
         
         return ans
 
