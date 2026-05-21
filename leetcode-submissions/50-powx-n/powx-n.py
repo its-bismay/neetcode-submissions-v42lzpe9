@@ -1,16 +1,16 @@
 class Solution:
-    def findPow(self, x, n):
-        if n == 0:
-            return 1
-        a = self.findPow(x, n // 2)
-        if n % 2 == 0:
-            return a * a
-        else:
-            return a * a * x
-
     def myPow(self, x: float, n: int) -> float:
-        if n >= 0 :
-            return self.findPow(x, n)
-        else:
-            return 1 / self.findPow(x, n * (-1))
+        def helper(n):
+            if n == 0:
+                return 1
+
+            temp = helper(n//2)
+            if n%2 == 0:
+                return temp * temp
+            else:
+                return temp * temp * x
+        ans = helper(abs(n))
+        if n < 0:
+            return 1/ans
+        return ans
         
