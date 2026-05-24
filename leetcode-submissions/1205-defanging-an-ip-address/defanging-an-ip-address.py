@@ -1,5 +1,13 @@
 class Solution:
     def defangIPaddr(self, address: str) -> str:
-        newAddress = address.replace(".", "[.]")
-        return newAddress
+        ans = ""
+
+        for ch in address:
+            if ch == ".":
+                ans+="[.]"
+            else:
+                ans+=ch
+        
+        return ans
+
         
