@@ -1,11 +1,15 @@
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        store = {}
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        seen = {}
+
         for idx, num in enumerate(nums):
             req = target - num
-            if req in store:
-                return [store[req], idx]
-            store[num] = idx
-        
-        return []
+
+            if req in seen:
+                return [idx, seen[req]]
+            
+            seen[num] = idx
+
+
+
         
