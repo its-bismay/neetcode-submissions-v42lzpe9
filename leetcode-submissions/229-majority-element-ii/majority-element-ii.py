@@ -1,30 +1,33 @@
 class Solution:
-    def majorityElement(self, nums):
-        cand1, cand2 = None, None
-        count1, count2 = 0, 0
+    def majorityElement(self, nums: list[int]) -> list[int]:
+        el1, el2, cnt1, cnt2 = -float("inf"), -float("inf") , 0 , 0
 
-        for num in nums:
-            if num == cand1:
-                count1 += 1
-            elif num == cand2:
-                count2 += 1
-            elif count1 == 0:
-                cand1 = num
-                count1 = 1
-            elif count2 == 0:
-                cand2 = num
-                count2 = 1
+        for i in range(len(nums)):
+            if cnt1 == 0 and nums[i] != el2:
+                el1 = nums[i]
+                cnt1 = 1
+            elif cnt2 == 0 and nums[i] != el1:
+                el2 = nums[i]
+                cnt2 = 1
+            elif nums[i] == el1:
+                cnt1 += 1
+            elif nums[i] == el2:
+                cnt2 += 1
             else:
-                count1 -= 1
-                count2 -= 1
-
-        ans = []
-
-        if nums.count(cand1) > len(nums) // 3:
-            ans.append(cand1)
-
-        if cand2 != cand1 and nums.count(cand2) > len(nums) // 3:
-            ans.append(cand2)
-
-        return ans
+                cnt1 -= 1
+                cnt2 -= 1
         
+        ans = []
+        cnt1, cnt2 = 0, 0
+        for i in range(len(nums)):
+            if nums[i] == el1:
+                cnt1 += 1
+            elif nums[i] == el2:
+                cnt2 += 1
+        target = len(nums) // 3
+        if cnt1 > target:
+            ans.append(el1)
+        if cnt2 > target:
+            ans.append(el2)
+        
+        return ans
