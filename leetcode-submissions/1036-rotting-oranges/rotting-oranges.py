@@ -1,44 +1,40 @@
 class Solution:
-    def orangesRotting(self, grid: List[List[int]]) -> int:
-        rows, cols = len(grid), len(grid[0])
+    def orangesRotting(self, grid: list[list[int]]) -> int:
+        n = len(grid)
+        m = len(grid[0])
+
         q = deque()
-        visited = set()
-
-        def rotting(r, c):
-            nonlocal fresh
-            if(
-                min(r,c) < 0 or
-                r >= rows or
-                c >= cols or
-                (r, c) in visited or
-                grid[r][c] != 1
-            ):
-                return
-
-            visited.add((r,c))
-            fresh -= 1
-            q.append([r,c])
-
+        visited = [[0] * m for _ in range(n)]
         fresh = 0
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == 1:
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == 2:
+                    q.append(([i, j], 0))
+                    visited[i][j] = 2
+                if grid[i][j] == 1:
                     fresh += 1
-                if grid[r][c] == 2:
-                    q.append([r,c])
-                    visited.add((r,c))
-        
-        time = 0
-        while q and fresh > 0:
-            for i  in range(len(q)):
-                r, c = q.popleft()
 
-                rotting( r , c + 1)
-                rotting( r , c - 1)
-                rotting( r - 1 , c)
-                rotting( r + 1 , c)
+        mt = 0
+        while q:
+            loc, t = q.popleft()
+            mt = max(mt, t)
+            r, c = loc
+            directions = [
+                (-1, 0), # top
+                (1, 0), # buttom
+                (0, -1), # left
+                (0, 1)  # right
+            ]
+
+            for dr, dc in directions:
+                nr = r + dr
+                nc = c + dc
+
+                if (nr >= 0 and nr < n and nc >= 0 and nc < m and visited[nr][nc] == 0 and grid[nr][nc] == 1):
+                    fresh -= 1
+                    q.append(([nr, nc], t + 1))
+                    visited[nr][nc] = 2
             
-            time += 1
-        
-        return time if fresh == 0 else -1
+        return -1 if fresh > 0 else mt
+
         
